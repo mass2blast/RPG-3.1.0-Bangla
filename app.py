@@ -1,6 +1,39 @@
 import streamlit as st
 import openai
 from googletrans import Translator
+import base64
+
+# ---- Branding Section ----
+
+# Telegram or website URL
+branding_url = "https://t.me/YourTelegramChannel"  # Replace with your actual channel link
+
+# Logo image path (must be in the same directory or specify full path)
+logo_file = "logo.png"  # Make sure you have this image in your repo
+
+# Load and encode the logo image
+def get_base64_logo(img_path):
+    with open(img_path, "rb") as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
+
+logo_base64 = get_base64_logo(logo_file)
+
+# Show logo with link
+st.markdown(
+    f"""
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+        <a href="{branding_url}" target="_blank">
+            <img src="data:image/png;base64,{logo_base64}" alt="Logo" style="height:60px;" />
+        </a>
+        <a href="{branding_url}" target="_blank" style="text-decoration: none; font-size: 14px; color: #888;">
+            Powered by আপনার ব্র্যান্ড / Your Brand
+        </a>
+    </div>
+    <hr style="margin-top: 10px;">
+    """,
+    unsafe_allow_html=True
+)
 
 # Set OpenAI API key
 openai.api_key = st.secrets["OPENAI_API_KEY"]
