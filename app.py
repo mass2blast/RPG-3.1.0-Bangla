@@ -15,54 +15,54 @@ st.markdown("Craft vivid, cinematic prompts for AI-generated images with highly 
 
 # ---- Presets and Dropdowns ---- (Bangla and English Text)
 style_options = [
-    ("ফটোরিয়ালিজম", "Photorealism"),
-    ("সাইবারপঙ্ক", "Cyberpunk"),
-    ("রেনেসাঁ", "Renaissance"),
-    ("বারোক", "Baroque"),
-    ("গ্লিচ আর্ট", "Glitch Art"),
-    ("সুররিয়ালিজম", "Surrealism"),
-    ("ফ্যান্টাসি ইলাস্ট্রেশন", "Fantasy Illustration"),
-    ("নিও-নোয়্যার", "Neo-noir")
+    ("ফটোরিয়ালিজম (Photorealism)", "Photorealism"),
+    ("সাইবারপঙ্ক (Cyberpunk)", "Cyberpunk"),
+    ("রেনেসাঁ (Renaissance)", "Renaissance"),
+    ("বারোক (Baroque)", "Baroque"),
+    ("গ্লিচ আর্ট (Glitch Art)", "Glitch Art"),
+    ("সুররিয়ালিজম (Surrealism)", "Surrealism"),
+    ("ফ্যান্টাসি ইলাস্ট্রেশন (Fantasy Illustration)", "Fantasy Illustration"),
+    ("নিও-নোয়্যার (Neo-noir)", "Neo-noir")
 ]
 
 fusion_options = [
-    ("কিছুই না", "None"),
-    ("ভিনটেজ সাইফাই এবং বারোক প্রভাব", "Vintage sci-fi with Baroque influences"),
-    ("সাইবারপঙ্ক এবং ওয়াটারকলার টেক্সচার", "Cyberpunk with watercolor textures"),
-    ("মিনিমালিস্ট রিয়েলিজম এবং গ্লিচ ইফেক্টস", "Minimalist realism with glitch effects"),
-    ("ফিল্ম নোয়ার এবং সুররিয়ালিস্ট ড্রিমস্কেপ", "Film noir meets surrealist dreamscape")
+    ("কিছুই না (None)", "None"),
+    ("ভিনটেজ সাইফাই এবং বারোক প্রভাব (Vintage sci-fi with Baroque influences)", "Vintage sci-fi with Baroque influences"),
+    ("সাইবারপঙ্ক এবং ওয়াটারকলার টেক্সচার (Cyberpunk with watercolor textures)", "Cyberpunk with watercolor textures"),
+    ("মিনিমালিস্ট রিয়েলিজম এবং গ্লিচ ইফেক্টস (Minimalist realism with glitch effects)", "Minimalist realism with glitch effects"),
+    ("ফিল্ম নোয়ার এবং সুররিয়ালিস্ট ড্রিমস্কেপ (Film noir meets surrealist dreamscape)", "Film noir meets surrealist dreamscape")
 ]
 
 mood_options = [
-    ("সুখী ও রহস্যময়", "Serene and ethereal"),
-    ("অন্ধকার এবং দুঃস্বপ্ন", "Dark and dystopian"),
-    ("মনখারাপ এবং বিষণ্ণ", "Melancholic and moody"),
-    ("আত্মবিশ্বাসী এবং শক্তিশালী", "Chaotic and energetic"),
-    ("শান্তিপূর্ণ ও ধ্যানমগ্ন", "Peaceful and meditative")
+    ("সুখী ও রহস্যময় (Serene and ethereal)", "Serene and ethereal"),
+    ("অন্ধকার এবং দুঃস্বপ্ন (Dark and dystopian)", "Dark and dystopian"),
+    ("মনখারাপ এবং বিষণ্ণ (Melancholic and moody)", "Melancholic and moody"),
+    ("আত্মবিশ্বাসী এবং শক্তিশালী (Chaotic and energetic)", "Chaotic and energetic"),
+    ("শান্তিপূর্ণ ও ধ্যানমগ্ন (Peaceful and meditative)", "Peaceful and meditative")
 ]
 
 lighting_options = [
-    ("সোনালী আলো", "Golden hour sunlight"),
-    ("উচ্চ কন্ট্রাস্ট নিওন আলো", "High contrast neon glow"),
-    ("সোফট এবং ডিফিউসড আলো", "Soft diffused light"),
-    ("ব্যাকলিট সিলুয়েট", "Backlit silhouette"),
-    ("কঠিন স্টুডিও আলো", "Harsh studio lighting")
+    ("সোনালী আলো (Golden hour sunlight)", "Golden hour sunlight"),
+    ("উচ্চ কন্ট্রাস্ট নিওন আলো (High contrast neon glow)", "High contrast neon glow"),
+    ("সোফট এবং ডিফিউসড আলো (Soft diffused light)", "Soft diffused light"),
+    ("ব্যাকলিট সিলুয়েট (Backlit silhouette)", "Backlit silhouette"),
+    ("কঠিন স্টুডিও আলো (Harsh studio lighting)", "Harsh studio lighting")
 ]
 
 camera_options = [
-    ("৩৫ মিমি লেন্সের সাথে ক্যাপচার", "Captured with a 35mm lens"),
-    ("৫০ মিমি লেন্সের সাথে ক্যাপচার", "Captured with a 50mm lens"),
-    ("এয়ারিয়াল ড্রোন ভিউ", "Aerial drone view"),
-    ("ম্যাক্রো ক্লোজ-আপ", "Macro close-up"),
-    ("ফিশআই লেন্স ভিউ", "Fisheye lens view")
+    ("৩৫ মিমি লেন্সের সাথে ক্যাপচার (Captured with a 35mm lens)", "Captured with a 35mm lens"),
+    ("৫০ মিমি লেন্সের সাথে ক্যাপচার (Captured with a 50mm lens)", "Captured with a 50mm lens"),
+    ("এয়ারিয়াল ড্রোন ভিউ (Aerial drone view)", "Aerial drone view"),
+    ("ম্যাক্রো ক্লোজ-আপ (Macro close-up)", "Macro close-up"),
+    ("ফিশআই লেন্স ভিউ (Fisheye lens view)", "Fisheye lens view")
 ]
 
-# ---- Inputs ----
+# ---- Inputs ---- (Initial mixed Bangla, English, and Banglish)
 subject = st.text_input("🧍 বিষয় / চরিত্র (Subject / Character)", "A mysterious wanderer")
 character_attributes = st.text_input("🔍 চরিত্রের বৈশিষ্ট্য (Character Attributes)", "mid-30s, male, long dark coat, glowing blue eyes, cybernetic hand")
 environment = st.text_input("🌆 পরিবেশ / সেটিং (Environment / Setting)", "Abandoned rooftop garden in a futuristic city")
 objects = st.text_input("📦 অবজেক্টস বা মূল উপাদান (Objects or Key Elements)", "Hovering drones, vines crawling up antennas, digital billboard flickering")
-weather = st.selectbox("🌦 আবহাওয়া (Weather)", ["Clear", "Rain", "Fog", "Storm", "Snow", "Overcast", "Unknown"], index=2)
+weather = st.selectbox("🌦 আবহাওয়া (Weather)", [x[0] for x in weather_options], index=2)
 time_of_day = st.selectbox("🕐 সময়ের পার্থক্য (Time of Day)", ["Dawn", "Morning", "Noon", "Golden Hour", "Dusk", "Night", "Midnight"], index=0)
 lighting = st.selectbox("💡 আলোর ধরন (Lighting Style)", [x[0] for x in lighting_options])
 mood = st.selectbox("🎭 মুড / আবেগ (Mood / Emotional Tone)", [x[0] for x in mood_options])
