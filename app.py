@@ -13,7 +13,7 @@ st.set_page_config(page_title="Realistic Prompt Generator", page_icon="🎨")
 st.title("🧠 Ultra-Realistic Prompt Generator")
 st.markdown("Craft vivid, cinematic prompts for AI-generated images with highly detailed control.")
 
-# ---- Presets and Dropdowns ---- (Bangla and English Text)
+# ---- Artistic Styles and their descriptions ----
 style_options = [
     ("ফটোরিয়ালিজম (Photorealism)", "Photorealism"),
     ("সাইবারপঙ্ক (Cyberpunk)", "Cyberpunk"),
@@ -25,85 +25,37 @@ style_options = [
     ("নিও-নোয়্যার (Neo-noir)", "Neo-noir")
 ]
 
-fusion_options = [
-    ("কিছুই না (None)", "None"),
-    ("ভিনটেজ সাইফাই এবং বারোক প্রভাব (Vintage sci-fi with Baroque influences)", "Vintage sci-fi with Baroque influences"),
-    ("সাইবারপঙ্ক এবং ওয়াটারকলার টেক্সচার (Cyberpunk with watercolor textures)", "Cyberpunk with watercolor textures"),
-    ("মিনিমালিস্ট রিয়েলিজম এবং গ্লিচ ইফেক্টস (Minimalist realism with glitch effects)", "Minimalist realism with glitch effects"),
-    ("ফিল্ম নোয়ার এবং সুররিয়ালিস্ট ড্রিমস্কেপ (Film noir meets surrealist dreamscape)", "Film noir meets surrealist dreamscape")
-]
+style_descriptions = {
+    "Photorealism": "Photorealism aims to make artwork appear as realistic as a photograph, with extreme attention to detail.",
+    "Cyberpunk": "Cyberpunk art typically blends futuristic technology with dystopian settings, emphasizing neon lights and a high-tech low-life atmosphere.",
+    "Renaissance": "Renaissance style focuses on realism, human emotion, and the beauty of nature, often using detailed light and shadow.",
+    "Baroque": "Baroque art is dramatic, emotional, and extravagant, characterized by rich colors, intense contrasts, and movement.",
+    "Glitch Art": "Glitch Art involves digital distortion, showcasing corrupted visuals that have aesthetic value.",
+    "Surrealism": "Surrealism presents dream-like scenes that defy logic, blending reality with the fantastical in often bizarre ways.",
+    "Fantasy Illustration": "Fantasy illustration brings to life fantastical worlds, creatures, and characters in a highly imaginative and often whimsical style.",
+    "Neo-noir": "Neo-noir is a modern take on the classic film noir genre, often involving dark themes, high contrast, and moody atmospheres."
+}
 
-mood_options = [
-    ("সুখী ও রহস্যময় (Serene and ethereal)", "Serene and ethereal"),
-    ("অন্ধকার এবং দুঃস্বপ্ন (Dark and dystopian)", "Dark and dystopian"),
-    ("মনখারাপ এবং বিষণ্ণ (Melancholic and moody)", "Melancholic and moody"),
-    ("আত্মবিশ্বাসী এবং শক্তিশালী (Chaotic and energetic)", "Chaotic and energetic"),
-    ("শান্তিপূর্ণ ও ধ্যানমগ্ন (Peaceful and meditative)", "Peaceful and meditative")
-]
-
-lighting_options = [
-    ("সোনালী আলো (Golden hour sunlight)", "Golden hour sunlight"),
-    ("উচ্চ কন্ট্রাস্ট নিওন আলো (High contrast neon glow)", "High contrast neon glow"),
-    ("সোফট এবং ডিফিউসড আলো (Soft diffused light)", "Soft diffused light"),
-    ("ব্যাকলিট সিলুয়েট (Backlit silhouette)", "Backlit silhouette"),
-    ("কঠিন স্টুডিও আলো (Harsh studio lighting)", "Harsh studio lighting")
-]
-
-camera_options = [
-    ("৩৫ মিমি লেন্সের সাথে ক্যাপচার (Captured with a 35mm lens)", "Captured with a 35mm lens"),
-    ("৫০ মিমি লেন্সের সাথে ক্যাপচার (Captured with a 50mm lens)", "Captured with a 50mm lens"),
-    ("এয়ারিয়াল ড্রোন ভিউ (Aerial drone view)", "Aerial drone view"),
-    ("ম্যাক্রো ক্লোজ-আপ (Macro close-up)", "Macro close-up"),
-    ("ফিশআই লেন্স ভিউ (Fisheye lens view)", "Fisheye lens view")
-]
-
-# ---- Weather options (missing in the previous code) ----
-weather_options = [
-    ("স্পষ্ট (Clear)", "Clear"),
-    ("বৃষ্টি (Rain)", "Rain"),
-    ("কুয়াশা (Fog)", "Fog"),
-    ("ঝড় (Storm)", "Storm"),
-    ("তুষারপাত (Snow)", "Snow"),
-    ("অপরিষ্কার (Overcast)", "Overcast"),
-    ("অজানা (Unknown)", "Unknown")
-]
-
-# ---- Inputs ---- (Initial mixed Bangla, English, and Banglish)
+# ---- Inputs ----
 subject = st.text_input("🧍 বিষয় / চরিত্র (Subject / Character)", "A mysterious wanderer")
 character_attributes = st.text_input("🔍 চরিত্রের বৈশিষ্ট্য (Character Attributes)", "mid-30s, male, long dark coat, glowing blue eyes, cybernetic hand")
 environment = st.text_input("🌆 পরিবেশ / সেটিং (Environment / Setting)", "Abandoned rooftop garden in a futuristic city")
-objects = st.text_input("📦 অবজেক্টস বা মূল উপাদান (Objects or Key Elements)", "Hovering drones, vines crawling up antennas, digital billboard flickering")
-weather = st.selectbox("🌦 আবহাওয়া (Weather)", [x[0] for x in weather_options], index=2)
-time_of_day = st.selectbox("🕐 সময়ের পার্থক্য (Time of Day)", ["Dawn", "Morning", "Noon", "Golden Hour", "Dusk", "Night", "Midnight"], index=0)
-lighting = st.selectbox("💡 আলোর ধরন (Lighting Style)", [x[0] for x in lighting_options])
-mood = st.selectbox("🎭 মুড / আবেগ (Mood / Emotional Tone)", [x[0] for x in mood_options])
-style = st.selectbox("🎨 শৈলী (Artistic Style)", [x[0] for x in style_options])
-artistic_fusion = st.selectbox("🔀 শৈলী সংমিশ্রণ (Style Fusion)", [x[0] for x in fusion_options])
-camera = st.selectbox("📷 ক্যামেরা / লেন্স বিশদ (Camera / Lens Details)", [x[0] for x in camera_options])
-action = st.text_input("🎬 ক্রিয়া / আবেগ (Action / Emotion)", "The man gazes across the city, smoke trailing from his coat, lost in memory")
-colors = st.text_input("🌈 রঙের প্যালেট / টেক্সচার (Color Palette / Textures)", "Moody blues, purple shadows, flickering pink neon, wet surfaces with reflections")
-abstract = st.text_input("💭 বিমূর্ত ধারণা (Abstract Concept)", "A metaphor for isolation in a hyper-connected world")
-notes = st.text_area("📝 অতিরিক্ত নোট (Extra Notes)", "Blend cyberpunk neon with noir grain and dramatic backlighting")
 
-# Combine the user inputs into a single string
-user_combined = f"""Style: {style}
-Artistic Fusion: {artistic_fusion}
-Subject: {subject}
-Character Details: {character_attributes}
-Environment: {environment}
-Objects/Scene Elements: {objects}
-Time of day: {time_of_day}
-Weather: {weather}
-Lighting: {lighting}
-Mood: {mood}
-Camera Details: {camera}
-Action/Emotion: {action}
-Color Palette & Texture: {colors}
-Abstract/Conceptual Notes: {abstract}
-Extra Notes: {notes}"""
+# ---- Dropdown for Artistic Style ----
+style = st.selectbox("🎨 শৈলী (Artistic Style)", [x[0] for x in style_options])
+
+# Show the description of the selected style
+selected_style = [x[1] for x in style_options if x[0] == style][0]
+st.markdown(f"### Selected Artistic Style: {selected_style}")
+st.markdown(f"**Description**: {style_descriptions[selected_style]}")
 
 # ---- Translate the Bangla Inputs to English (for output) ----
 # Here we're translating inputs that might be in Bangla or Banglish to English
+user_combined = f"""Style: {style}
+Subject: {subject}
+Character Details: {character_attributes}
+Environment: {environment}"""
+
 translated_combined = translator.translate(user_combined, src='bn', dest='en').text
 
 # Define system_prompt here
