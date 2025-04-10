@@ -1,8 +1,12 @@
 import streamlit as st
 import openai
+from googletrans import Translator
 
 # Set OpenAI API key
 openai.api_key = st.secrets["OPENAI_API_KEY"]
+
+# Translator setup for Bangla to English
+translator = Translator()
 
 # Streamlit app config
 st.set_page_config(page_title="রিয়ালিস্টিক প্রম্পট জেনারেটর", page_icon="🎨")
@@ -113,6 +117,10 @@ Action/Emotion: {action}
 Color Palette & Texture: {colors}
 Abstract/Conceptual Notes: {abstract}
 Extra Notes: {notes}"""
+
+# ---- Translate the Bangla Inputs to English (for output) ----
+# Translate inputs that might be in Bangla or Banglish to English
+translated_combined = translator.translate(user_combined, src='auto', dest='en').text
 
 # ---- Tracker - Log user inputs and activities ----
 st.write(f"Tracking Info: User is generating a prompt with the following details.")
