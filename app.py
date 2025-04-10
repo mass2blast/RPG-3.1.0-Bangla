@@ -152,9 +152,7 @@ if st.button("🎯 Generate Prompt"):
             # Extract the result correctly from the response
             result = response['choices'][0]['message']['content'].strip()
 
-            # Display the result in the app
-            st.markdown("### 🖼️ Final Prompt")
-            st.code(result, language="text")
+            
 
             # Track the tokens used for the request
             tokens_used = response['usage']['total_tokens']
