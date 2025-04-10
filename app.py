@@ -13,6 +13,17 @@ st.set_page_config(page_title="Realistic Prompt Generator", page_icon="🎨")
 st.title("🧠 Ultra-Realistic Prompt Generator")
 st.markdown("Craft vivid, cinematic prompts for AI-generated images with highly detailed control.")
 
+# CSS for small and neat description font
+st.markdown("""
+    <style>
+        .small-font {
+            font-size: 12px;
+            color: #555555;
+            font-style: italic;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
 # ---- Presets and Dropdowns ----
 style_options = [
     ("ফটোরিয়ালিজম (Photorealism)", "Photorealism"),
@@ -91,6 +102,23 @@ camera_descriptions = {
     "Fisheye lens view": "A wide-angle lens creating a distorted, curved perspective."
 }
 
+# Mood options and descriptions
+mood_options = [
+    ("সারেন এবং ইথেরিয়াল (Serene and ethereal)", "Serene and ethereal"),
+    ("অন্ধকার এবং ডিস্টোপিয়ান (Dark and dystopian)", "Dark and dystopian"),
+    ("মেলাঙ্কলিক এবং মুডি (Melancholic and moody)", "Melancholic and moody"),
+    ("কাল্পনিক এবং শক্তিশালী (Chaotic and energetic)", "Chaotic and energetic"),
+    ("শান্তিপূর্ণ এবং ধ্যানে (Peaceful and meditative)", "Peaceful and meditative")
+]
+
+mood_descriptions = {
+    "Serene and ethereal": "A calm, peaceful atmosphere with a sense of purity.",
+    "Dark and dystopian": "A grim, bleak setting, filled with chaos and desolation.",
+    "Melancholic and moody": "An atmosphere full of sadness or introspection.",
+    "Chaotic and energetic": "A vibrant, intense setting with a lot of movement and energy.",
+    "Peaceful and meditative": "A tranquil scene that invites calmness and reflection."
+}
+
 # ---- Inputs ----
 subject = st.text_input("🧍 বিষয় / চরিত্র (Subject / Character)", "A mysterious wanderer")
 character_attributes = st.text_input("🔍 চরিত্রের বৈশিষ্ট্য (Character Attributes)", "mid-30s, male, long dark coat, glowing blue eyes, cybernetic hand")
@@ -104,89 +132,46 @@ notes = st.text_area("📝 অতিরিক্ত নোট (Optional Notes)",
 # ---- Dropdown for Weather ----
 weather = st.selectbox("🌦 আবহাওয়া (Weather)", [x[0] for x in weather_options], index=2)
 
-# Show the description of the selected weather
+# Show the description of the selected weather in a smaller font
 selected_weather = [x[1] for x in weather_options if x[0] == weather][0]
 st.markdown(f"### Selected Weather: {selected_weather}")
-st.markdown(f"**Description**: {weather_descriptions[selected_weather]}")
+st.markdown(f"<p class='small-font'>Description: {weather_descriptions[selected_weather]}</p>", unsafe_allow_html=True)
 
 # ---- Dropdown for Lighting ----
 lighting = st.selectbox("💡 আলো (Lighting Style)", [x[0] for x in lighting_options])
 
-# Show the description of the selected lighting style
+# Show the description of the selected lighting style in a smaller font
 selected_lighting = [x[1] for x in lighting_options if x[0] == lighting][0]
 st.markdown(f"### Selected Lighting: {selected_lighting}")
-st.markdown(f"**Description**: {lighting_descriptions[selected_lighting]}")
+st.markdown(f"<p class='small-font'>Description: {lighting_descriptions[selected_lighting]}</p>", unsafe_allow_html=True)
 
 # ---- Dropdown for Camera ----
 camera = st.selectbox("📷 ক্যামেরা / লেন্সের বিবরণ (Camera / Lens Details)", [x[0] for x in camera_options])
 
-# Show the description of the selected camera style
+# Show the description of the selected camera style in a smaller font
 selected_camera = [x[1] for x in camera_options if x[0] == camera][0]
 st.markdown(f"### Selected Camera: {selected_camera}")
-st.markdown(f"**Description**: {camera_descriptions[selected_camera]}")
+st.markdown(f"<p class='small-font'>Description: {camera_descriptions[selected_camera]}</p>", unsafe_allow_html=True)
 
-# ---- Artistic Style Dropdown ----
-style = st.selectbox("🎨 শৈলী (Artistic Style)", [x[0] for x in style_options])
-
-# Show the description of the selected style
-selected_style = [x[1] for x in style_options if x[0] == style][0]
-st.markdown(f"### Selected Artistic Style: {selected_style}")
-st.markdown(f"**Description**: {style_descriptions[selected_style]}")
-
-# ---- Translate the Bangla Inputs to English (for output) ----
-user_combined = f"""Style: {style}
-Subject: {subject}
-Character Details: {character_attributes}
-Environment: {environment}
-Objects/Scene Elements: {objects}
-Time of day: {weather}
-Lighting: {lighting}
-Mood: {mood}
-Camera Details: {camera}
-Action/Emotion: {action}
-Color Palette & Texture: {colors}
-Abstract/Conceptual Notes: {abstract}
-Extra Notes: {notes}"""
-
-translated_combined = translator.translate(user_combined, src='bn', dest='en').text
-
-# Define system_prompt here
-system_prompt = """You are a professional prompt engineer specializing in generating highly detailed, vivid, and imaginative prompts for AI image generation.
-
-Your format must always follow this structure:
-[Style] | [Subject/Character] | [Environment] | [Details about action/emotion] | [Color Scheme/Lighting/Texture]
-
-Use elevated, visual language and cinematic descriptions.
-Follow these rules:
-- Focus on character traits, mood, emotion, atmosphere, materials, and depth
-- Include abstract or conceptual ideas when given
-- Blend artistic styles when requested
-- No bullet points. Only output the final prompt in one block.
-
-The goal: craft something a visual artist could bring to life immediately.
-"""
-
-# Button to trigger prompt generation
+# ---- Generate Prompt Button ----
 if st.button("🎯 Generate Prompt"):
-    with st.spinner("Crafting a cinematic prompt..."):
-        try:
-            # OpenAI API call using the updated method for completions
-            response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",  # Use "gpt-4" if you want the latest model (paid version)
-                messages=[
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": translated_combined}
-                ],
-                temperature=0.8,
-                max_tokens=400
-            )
+    combined = f"Style: {style_options[0][1]} | Subject: {subject} | Character Details: {character_attributes} | " \
+               f"Environment: {environment} | Objects/Scene Elements: {objects} | Weather: {weather} | Lighting: {lighting} | " \
+               f"Mood: {mood} | Camera: {camera} | Action: {action} | Color Palette & Texture: {colors} | " \
+               f"Abstract/Conceptual Notes: {abstract} | Extra Notes: {notes}"
 
-            # Extract the result correctly from the response
-            result = response['choices'][0]['message']['content'].strip()
+    # Translate inputs to English for prompt generation
+    translated_combined = translator.translate(combined, src='bn', dest='en').text
 
-            # Display the result in the app
-            st.markdown("### 🖼️ Final Prompt")
-            st.code(result, language="text")
+    # Call OpenAI API to generate the prompt
+    response = openai.Completion.create(
+        model="gpt-3.5-turbo",  # or use gpt-4
+        prompt=translated_combined,
+        temperature=0.7,
+        max_tokens=250
+    )
+    generated_prompt = response.choices[0].text.strip()
 
-        except Exception as e:
-            st.error(f"Error: {e}")
+    # Display the result
+    st.markdown("### 🖼️ Final Prompt")
+    st.code(generated_prompt, language="text")
