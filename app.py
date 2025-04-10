@@ -111,6 +111,6 @@ if st.button("🎯 Generate Prompt"):
     
     # Display descriptions (both Bangla and English in small font)
     st.markdown(f"<p class='small-font'><i>Weather Description: {weather_description} (বাংলা: {weather_description})</i></p>", unsafe_allow_html=True)
-    st.markdown(f"<p class='small-font'><i>Style Description: {style_options} (বাংলা: {style_options})</i></p>", unsafe_allow_html=True)
-    st.markdown(f"<p class='small-font'><i>Mood Description: {mood_options} (বাংলা: {mood_options})</i></p>", unsafe_allow_html=True)
+    st.markdown(f"<p class='small-font'><i>Style Description: {style_option} (বাংলা: {style_option})</i></p>", unsafe_allow_html=True)
+    st.markdown(f"<p class='small-font'><i>Mood Description: {mood_option} (বাংলা: {mood_option})</i></p>", unsafe_allow_html=True)
 
