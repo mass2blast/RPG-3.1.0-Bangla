@@ -57,7 +57,7 @@ camera_options = [
     ("ফিশআই লেন্স ভিউ (Fisheye lens view)", "Fisheye lens view")
 ]
 
-# ---- Weather options (missing in the previous code) ----
+# ---- Weather options ----
 weather_options = [
     ("স্পষ্ট (Clear)", "Clear"),
     ("বৃষ্টি (Rain)", "Rain"),
@@ -68,7 +68,7 @@ weather_options = [
     ("অজানা (Unknown)", "Unknown")
 ]
 
-# ---- Inputs ---- (Initial mixed Bangla, English, and Banglish)
+# ---- Inputs ---- (Mixed Bangla, English, and Banglish)
 subject = st.text_input("🧍 বিষয় / চরিত্র (Subject / Character)", "A mysterious wanderer")
 character_attributes = st.text_input("🔍 চরিত্রের বৈশিষ্ট্য (Character Attributes)", "mid-30s, male, long dark coat, glowing blue eyes, cybernetic hand")
 environment = st.text_input("🌆 পরিবেশ / সেটিং (Environment / Setting)", "Abandoned rooftop garden in a futuristic city")
@@ -85,7 +85,7 @@ colors = st.text_input("🌈 রঙের প্যালেট / টেক্�
 abstract = st.text_input("💭 বিমূর্ত ধারণা (Abstract Concept)", "A metaphor for isolation in a hyper-connected world")
 notes = st.text_area("📝 অতিরিক্ত নোট (Extra Notes)", "Blend cyberpunk neon with noir grain and dramatic backlighting")
 
-# Combine the user inputs into a single string
+# ---- Combine the user inputs into a single string ----
 user_combined = f"""Style: {style}
 Artistic Fusion: {artistic_fusion}
 Subject: {subject}
@@ -103,8 +103,8 @@ Abstract/Conceptual Notes: {abstract}
 Extra Notes: {notes}"""
 
 # ---- Translate the Bangla Inputs to English (for output) ----
-# Here we're translating inputs that might be in Bangla or Banglish to English
-translated_combined = translator.translate(user_combined, src='bn', dest='en').text
+# Translate inputs that might be in Bangla or Banglish to English
+translated_combined = translator.translate(user_combined, src='auto', dest='en').text
 
 # Define system_prompt here
 system_prompt = """You are a professional prompt engineer specializing in generating highly detailed, vivid, and imaginative prompts for AI image generation.
@@ -121,6 +121,12 @@ Follow these rules:
 
 The goal: craft something a visual artist could bring to life immediately.
 """
+
+# ---- Tracker - Log user inputs and activities ----
+st.write(f"Tracking Info: User is generating a prompt with the following details.")
+st.write(f"Subject: {subject}")
+st.write(f"Weather: {weather}")
+st.write(f"Action: {action}")
 
 # Button to trigger prompt generation
 if st.button("🎯 Generate Prompt"):
