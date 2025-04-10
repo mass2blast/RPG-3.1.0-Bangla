@@ -57,6 +57,17 @@ camera_options = [
     ("ফিশআই লেন্স ভিউ (Fisheye lens view)", "Fisheye lens view")
 ]
 
+# ---- Weather options (missing in the previous code) ----
+weather_options = [
+    ("স্পষ্ট (Clear)", "Clear"),
+    ("বৃষ্টি (Rain)", "Rain"),
+    ("কুয়াশা (Fog)", "Fog"),
+    ("ঝড় (Storm)", "Storm"),
+    ("তুষারপাত (Snow)", "Snow"),
+    ("অপরিষ্কার (Overcast)", "Overcast"),
+    ("অজানা (Unknown)", "Unknown")
+]
+
 # ---- Inputs ---- (Initial mixed Bangla, English, and Banglish)
 subject = st.text_input("🧍 বিষয় / চরিত্র (Subject / Character)", "A mysterious wanderer")
 character_attributes = st.text_input("🔍 চরিত্রের বৈশিষ্ট্য (Character Attributes)", "mid-30s, male, long dark coat, glowing blue eyes, cybernetic hand")
