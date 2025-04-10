@@ -8,6 +8,12 @@ openai.api_key = st.secrets["OPENAI_API_KEY"]
 # Translator setup for Bangla to English
 translator = Translator()
 
+# Initialize token consumption tracking in session state if not present
+if 'api_calls' not in st.session_state:
+    st.session_state.api_calls = 0
+if 'total_tokens' not in st.session_state:
+    st.session_state.total_tokens = 0
+
 # Streamlit page setup
 st.set_page_config(page_title="Realistic Prompt Generator", page_icon="🎨")
 st.title("🧠 Ultra-Realistic Prompt Generator")
@@ -150,5 +156,17 @@ if st.button("🎯 Generate Prompt"):
             st.markdown("### 🖼️ Final Prompt")
             st.code(result, language="text")
 
+            # Track the tokens used for the request
+            tokens_used = response['usage']['total_tokens']
+            st.session_state.total_tokens += tokens_used
+            st.session_state.api_calls += 1
+
+            # Display the result and token usage tracker
+            st.markdown("### 🖼️ Final Prompt")
+            st.code(result, language="text")
+            st.markdown(f"🔄 API Calls Made: {st.session_state.api_calls}")
+            st.markdown(f"💬 Total Tokens Consumed: {st.session_state.total_tokens}")
+
+        
         except Exception as e:
             st.error(f"Error: {e}")
