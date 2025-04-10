@@ -13,7 +13,7 @@ st.set_page_config(page_title="Realistic Prompt Generator", page_icon="🎨")
 st.title("🧠 Ultra-Realistic Prompt Generator")
 st.markdown("Craft vivid, cinematic prompts for AI-generated images with highly detailed control.")
 
-# CSS for small and neat description font
+# CSS for styling inputs and descriptions
 st.markdown("""
     <style>
         .small-font {
@@ -21,8 +21,18 @@ st.markdown("""
             color: #555555;
             font-style: italic;
         }
+        .input-text {
+            color: #333333;
+        }
+        select {
+            color: #003366; /* Change dropdown text color */
+        }
     </style>
 """, unsafe_allow_html=True)
+
+# Token Tracker (Global variables to track tokens)
+if "tokens_used" not in st.session_state:
+    st.session_state.tokens_used = 0
 
 # ---- Presets and Dropdowns ----
 style_options = [
@@ -33,7 +43,15 @@ style_options = [
     ("গ্লিচ আর্ট (Glitch Art)", "Glitch Art"),
     ("সুররিয়ালিজম (Surrealism)", "Surrealism"),
     ("ফ্যান্টাসি ইলাস্ট্রেশন (Fantasy Illustration)", "Fantasy Illustration"),
-    ("নিও-নোয়্যার (Neo-noir)", "Neo-noir")
+    ("নিও-নোয়্যার (Neo-noir)", "Neo-noir"),
+    ("ওয়াটারকলার (Watercolor)", "Watercolor"),
+    ("পাস্টেল ড্রইং (Pastel Drawing)", "Pastel Drawing"),
+    ("কার্টুন (Cartoon)", "Cartoon"),
+    ("তেল চিত্র (Oil Painting)", "Oil Painting"),
+    ("পেন্সিল স্কেচ (Pencil Sketch)", "Pencil Sketch"),
+    ("পেপার কলাজ (Paper Collage)", "Paper Collage"),
+    ("স্ট্রিট আর্ট (Street Art)", "Street Art"),
+    ("সাইকেডেলিক (Psychedelic)", "Psychedelic")
 ]
 
 style_descriptions = {
@@ -44,7 +62,15 @@ style_descriptions = {
     "Glitch Art": "Glitch Art involves digital distortion, showcasing corrupted visuals that have aesthetic value.",
     "Surrealism": "Surrealism presents dream-like scenes that defy logic, blending reality with the fantastical in often bizarre ways.",
     "Fantasy Illustration": "Fantasy illustration brings to life fantastical worlds, creatures, and characters in a highly imaginative and often whimsical style.",
-    "Neo-noir": "Neo-noir is a modern take on the classic film noir genre, often involving dark themes, high contrast, and moody atmospheres."
+    "Neo-noir": "Neo-noir is a modern take on the classic film noir genre, often involving dark themes, high contrast, and moody atmospheres.",
+    "Watercolor": "Watercolor art is created using water-soluble pigments, often giving a light and translucent feel to the image.",
+    "Pastel Drawing": "Pastel drawing involves using soft, powdery pigments for a smooth, velvety texture with rich colors.",
+    "Cartoon": "Cartoon art emphasizes exaggerated forms, bright colors, and whimsical characters for comedic or dramatic effects.",
+    "Oil Painting": "Oil painting involves the use of oil-based paints, often creating rich, textured, and detailed works.",
+    "Pencil Sketch": "Pencil sketches are created with graphite pencils, focusing on shading and fine details in a monochrome style.",
+    "Paper Collage": "Paper collage involves assembling cut pieces of paper into artistic compositions, often creating textured and layered effects.",
+    "Street Art": "Street art includes art created in public spaces, often featuring graffiti, murals, and urban themes.",
+    "Psychedelic": "Psychedelic art is known for vibrant colors, surreal landscapes, and distorted, abstract shapes."
 }
 
 # Weather options and descriptions
@@ -120,38 +146,26 @@ mood_descriptions = {
 }
 
 # ---- Inputs ----
-subject = st.text_input("🧍 বিষয় / চরিত্র (Subject / Character)", "A mysterious wanderer")
-character_attributes = st.text_input("🔍 চরিত্রের বৈশিষ্ট্য (Character Attributes)", "mid-30s, male, long dark coat, glowing blue eyes, cybernetic hand")
-environment = st.text_input("🌆 পরিবেশ / সেটিং (Environment / Setting)", "Abandoned rooftop garden in a futuristic city")
-objects = st.text_input("📦 বস্তু বা মূল উপাদান (Objects or Key Elements)", "Hovering drones, vines crawling up antennas, digital billboard flickering")
-action = st.text_input("🎬 একশন বা অনুভূতি (Action / Emotion)", "The man gazes across the city, smoke trailing from his coat, lost in memory")
-colors = st.text_input("🌈 রঙ প্যালেট / টেক্সচার (Color Palette / Textures)", "Moody blues, purple shadows, flickering pink neon, wet surfaces with reflections")
-abstract = st.text_input("💭 বিমূর্ত ধারণা (Optional Abstract Concept)", "A metaphor for isolation in a hyper-connected world")
-notes = st.text_area("📝 অতিরিক্ত নোট (Optional Notes)", "Blend cyberpunk neon with noir grain and dramatic backlighting")
-
-# ---- Dropdown for Weather ----
+subject = st.text_input("🧍 Subject / Character", "A mysterious wanderer")
+character_attributes = st.text_input("🔍 Character Attributes", "mid-30s, male, long dark coat, glowing blue eyes, cybernetic hand")
+environment = st.text_input("🌆 Environment / Setting", "Abandoned rooftop garden in a futuristic city")
+objects = st.text_input("📦 Objects or Key Elements", "Hovering drones, vines crawling up antennas, digital billboard flickering")
 weather = st.selectbox("🌦 আবহাওয়া (Weather)", [x[0] for x in weather_options], index=2)
-
-# Show the description of the selected weather in a smaller font
-selected_weather = [x[1] for x in weather_options if x[0] == weather][0]
-st.markdown(f"### Selected Weather: {selected_weather}")
-st.markdown(f"<p class='small-font'>Description: {weather_descriptions[selected_weather]}</p>", unsafe_allow_html=True)
-
-# ---- Dropdown for Lighting ----
 lighting = st.selectbox("💡 আলো (Lighting Style)", [x[0] for x in lighting_options])
+mood = st.selectbox("🎭 মুড / আবেগপূর্ণ পরিবেশ (Mood / Emotional Tone)", [x[0] for x in mood_options])
+style = st.selectbox("🎨 শৈলী (Artistic Style)", [x[0] for x in style_options])
+camera = st.selectbox("📷 ক্যামেরা / লেন্সের বিস্তারিত (Camera / Lens Details)", [x[0] for x in camera_options])
+action = st.text_input("🎬 Action / Emotion", "The man gazes across the city, smoke trailing from his coat, lost in memory")
+colors = st.text_input("🌈 Color Palette / Textures", "Moody blues, purple shadows, flickering pink neon, wet surfaces with reflections")
+abstract = st.text_input("💭 Abstract Concept (Optional)", "A metaphor for isolation in a hyper-connected world")
+notes = st.text_area("📝 Extra Notes (Optional)", "Blend cyberpunk neon with noir grain and dramatic backlighting")
 
-# Show the description of the selected lighting style in a smaller font
-selected_lighting = [x[1] for x in lighting_options if x[0] == lighting][0]
-st.markdown(f"### Selected Lighting: {selected_lighting}")
-st.markdown(f"<p class='small-font'>Description: {lighting_descriptions[selected_lighting]}</p>", unsafe_allow_html=True)
-
-# ---- Dropdown for Camera ----
-camera = st.selectbox("📷 ক্যামেরা / লেন্সের বিবরণ (Camera / Lens Details)", [x[0] for x in camera_options])
-
-# Show the description of the selected camera style in a smaller font
-selected_camera = [x[1] for x in camera_options if x[0] == camera][0]
-st.markdown(f"### Selected Camera: {selected_camera}")
-st.markdown(f"<p class='small-font'>Description: {camera_descriptions[selected_camera]}</p>", unsafe_allow_html=True)
+# ---- Description Display ----
+st.markdown(f"<p class='small-font'>Weather Description: {weather_descriptions[weather]}</p>", unsafe_allow_html=True)
+st.markdown(f"<p class='small-font'>Lighting Description: {lighting_descriptions[lighting]}</p>", unsafe_allow_html=True)
+st.markdown(f"<p class='small-font'>Mood Description: {mood_descriptions[mood]}</p>", unsafe_allow_html=True)
+st.markdown(f"<p class='small-font'>Camera Description: {camera_descriptions[camera]}</p>", unsafe_allow_html=True)
+st.markdown(f"<p class='small-font'>Style Description: {style_descriptions[style]}</p>", unsafe_allow_html=True)
 
 # ---- Generate Prompt Button ----
 if st.button("🎯 Generate Prompt"):
@@ -170,8 +184,17 @@ if st.button("🎯 Generate Prompt"):
         temperature=0.7,
         max_tokens=250
     )
+    
     generated_prompt = response.choices[0].text.strip()
+
+    # Track tokens used
+    tokens_used = response.usage['total_tokens']
+    st.session_state.tokens_used += tokens_used
 
     # Display the result
     st.markdown("### 🖼️ Final Prompt")
     st.code(generated_prompt, language="text")
+
+    # Show token usage
+    st.markdown(f"### Tokens Used: {tokens_used}")
+    st.markdown(f"### Total Tokens Consumed: {st.session_state.tokens_used}")
