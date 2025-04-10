@@ -8,6 +8,12 @@ openai.api_key = st.secrets["OPENAI_API_KEY"]
 # Translator setup for Bangla to English
 translator = Translator()
 
+# Initialize token consumption tracking in session state if not present
+if 'api_calls' not in st.session_state:
+    st.session_state.api_calls = 0
+if 'total_tokens' not in st.session_state:
+    st.session_state.total_tokens = 0
+
 # Streamlit app config
 st.set_page_config(page_title="রিয়ালিস্টিক প্রম্পট জেনারেটর", page_icon="🎨")
 st.title("🧠 বাস্তবধর্মী প্রম্পট জেনারেটর")
