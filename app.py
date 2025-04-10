@@ -157,7 +157,10 @@ style = st.selectbox("🎨 শৈলী (Artistic Style)", [x[0] for x in style_
 camera = st.selectbox("📷 ক্যামেরা / লেন্সের বিস্তারিত (Camera / Lens Details)", [x[0] for x in camera_options])
 action = st.text_input("🎬 Action / Emotion", "The man gazes across the city, smoke trailing from his coat, lost in memory")
 colors = st.text_input("🌈 Color Palette / Textures", "Moody blues, purple shadows, flickering pink neon, wet surfaces with reflections")
+
+# Abstract Concept input (Fixed)
 abstract = st.text_input("💭 Abstract Concept (Optional)", "A metaphor for isolation in a hyper-connected world")
+
 notes = st.text_area("📝 Extra Notes (Optional)", "Blend cyberpunk neon with noir grain and dramatic backlighting")
 
 # ---- Description Display ----
