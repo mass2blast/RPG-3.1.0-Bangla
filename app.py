@@ -1,6 +1,8 @@
 import streamlit as st
 import openai
-import time
+
+# Set OpenAI API key
+openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 # Streamlit page setup
 st.set_page_config(page_title="Realistic Prompt Generator", page_icon="🎨")
@@ -84,6 +86,39 @@ weather_descriptions = {
 
 weather_description = weather_descriptions.get(weather, "No description available.")
 
+# ---- System prompt definition ----
+system_prompt = """You are a professional prompt engineer specializing in generating highly detailed, vivid, and imaginative prompts for AI image generation.
+
+Your format must always follow this structure:
+[Style] | [Subject/Character] | [Environment] | [Details about action/emotion] | [Color Scheme/Lighting/Texture]
+
+Use elevated, visual language and cinematic descriptions.
+Follow these rules:
+- Focus on character traits, mood, emotion, atmosphere, materials, and depth.
+- Include abstract or conceptual ideas when given.
+- Blend artistic styles when requested.
+- No bullet points. Only output the final prompt in one block.
+
+The goal: craft something a visual artist could bring to life immediately.
+"""
+
+# ---- Combine user inputs into a single string ----
+user_combined = f"""Style: {style}
+Artistic Fusion: {artistic_fusion}
+Subject: {subject}
+Character Details: {character_attributes}
+Environment: {environment}
+Objects/Scene Elements: {objects}
+Time of day: {time_of_day}
+Weather: {weather}
+Lighting: {lighting}
+Mood: {mood}
+Camera Details: {camera}
+Action/Emotion: {action}
+Color Palette & Texture: {colors}
+Abstract/Conceptual Notes: {abstract}
+Extra Notes: {notes}"""
+
 # ---- Display the prompt generation info ----
 if st.button("🎯 Generate Prompt"):
     with st.spinner("Crafting a cinematic prompt..."):
@@ -111,6 +146,3 @@ if st.button("🎯 Generate Prompt"):
     
     # Display descriptions (both Bangla and English in small font)
     st.markdown(f"<p class='small-font'><i>Weather Description: {weather_description} (বাংলা: {weather_description})</i></p>", unsafe_allow_html=True)
-    st.markdown(f"<p class='small-font'><i>Style Description: {style_option} (বাংলা: {style_option})</i></p>", unsafe_allow_html=True)
-    st.markdown(f"<p class='small-font'><i>Mood Description: {mood_option} (বাংলা: {mood_option})</i></p>", unsafe_allow_html=True)
-
