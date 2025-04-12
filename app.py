@@ -1,6 +1,7 @@
 import streamlit as st
 import openai
 from googletrans import Translator
+from googletrans.exceptions import TranslateError
 import base64
 import os
 
@@ -36,8 +37,21 @@ else:
 # Set OpenAI API key
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
-# Translator setup
+# Setup translator
 translator = Translator()
+
+def translate_to_english(text):
+    try:
+        if not text.strip():
+            return ""
+        translated = translator.translate(text, src='auto', dest='en')
+        return translated.text
+    except TranslateError as e:
+        print(f"Translation error: {e}")
+        return text  # fallback: return original text if translation fails
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+        return text  # fallback: return original text if other error happens
 
 # Initialize session state trackers if not present
 if 'api_calls' not in st.session_state:
