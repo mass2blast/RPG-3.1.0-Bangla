@@ -40,8 +40,13 @@ openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 # Initialize translators
 translator = Translator()
-phonetic = AvroPhonetic()
 
+def transliterate_banglish(text):
+    try:
+        return AvroPhonetic().parse(text)
+    except:
+        return text
+        
 # Initialize session state trackers if not present
 if 'api_calls' not in st.session_state:
     st.session_state.api_calls = 0
@@ -191,7 +196,7 @@ if st.button("🎯 Generate Prompt"):
             st.session_state.api_calls += 1
 
             st.markdown("### 🖼️ Final Prompt")
-            st.code(result, language="text")
+            st.write(result)
             st.markdown(f"🔄 API Calls Made: {st.session_state.api_calls}")
             st.markdown(f"💬 Total Tokens Consumed: {st.session_state.total_tokens}")
 
