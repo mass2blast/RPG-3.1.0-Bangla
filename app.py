@@ -1,8 +1,10 @@
 import streamlit as st
 import openai
 from googletrans import Translator
+from avro.datafile import DataFileReader
 import base64
 import os
+from transliterate import AvroPhonetic
 
 # 🟢 MUST BE FIRST Streamlit command
 st.set_page_config(page_title="রিয়ালিস্টিক প্রম্পট জেনারেটর", page_icon="🎨")
@@ -10,7 +12,7 @@ st.set_page_config(page_title="রিয়ালিস্টিক প্রম
 # ---------- Branding Section ----------
 
 # Telegram or branding link
-branding_url = "https://t.me/YourTelegramChannel"  # Replace with your actual link
+branding_url = "https://t.me/techytan"  # Replace with your actual link
 logo_path = "logo.png"
 
 def get_base64_logo(logo_path):
@@ -25,7 +27,7 @@ if os.path.exists(logo_path):
                 <img src="data:image/png;base64,{logo_base64}" alt="Logo" style="height:50px;">
             </a>
             <a href="{branding_url}" target="_blank" style="text-decoration: none; font-size: 14px; color: #888;">
-                Powered by <strong>YourBrand</strong>
+                Powered by <strong>RZ STUDIOS</strong>
             </a>
         </div>
         <hr style="margin-top: 5px;">
@@ -36,8 +38,9 @@ else:
 # Set OpenAI API key
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
-# Translator setup
+# Initialize translators
 translator = Translator()
+phonetic = AvroPhonetic()
 
 # Initialize session state trackers if not present
 if 'api_calls' not in st.session_state:
@@ -124,10 +127,12 @@ notes = st.text_area("📝 অতিরিক্ত নোট", "Blend cyberpunk
 system_prompt = """You are a professional prompt engineer specializing in generating highly detailed, vivid, and imaginative prompts for AI image generation.
 
 Your format must always follow this structure:
-[Style] | [Subject/Character] | [Environment] | [Details about action/emotion] | [Color Scheme/Lighting/Texture]
+a descriptive, flowing paragraph combining mood, style, characters, environment, action, colors, and abstract themes.
 
+No bullet points. No formatting headers. Just one rich cinematic paragraph.
 Use elevated, visual language and cinematic descriptions.
 The goal: craft something a visual artist could bring to life immediately.
+
 """
 
 # ---- Combine Inputs ----
@@ -147,8 +152,17 @@ Color Palette & Texture: {colors}
 Abstract/Conceptual Notes: {abstract}
 Extra Notes: {notes}"""
 
-# ---- Translate to English ----
-translated_combined = translator.translate(user_combined, src='auto', dest='en').text
+# Transliterate Banglish to English first (if any)
+def transliterate_text(text):
+    try:
+        return phonetic.transliterate(text)
+    except:
+        return text
+
+transliterated_text = transliterate_text(user_combined)
+
+# Then translate any remaining Bangla to English
+translated_combined = translator.translate(transliterated_text, src='auto', dest='en').text
 
 # ---- Track User Inputs ----
 st.write("Tracking Info:")
