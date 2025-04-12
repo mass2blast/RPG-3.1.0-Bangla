@@ -22,7 +22,7 @@ if os.path.exists(logo_path):
     st.markdown(f"""
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
             <a href="{branding_url}" target="_blank">
-                <img src="data:image/png;base64,{logo_base64}" alt="Logo" style="height:50px;">
+                <img src="data:image/png;base64,{logo_base64}" alt="Logo" style="height:128px;">
             </a>
             <a href="{branding_url}" target="_blank" style="text-decoration: none; font-size: 14px; color: #888;">
                 Powered by <strong>RZ STUDIO</strong>
