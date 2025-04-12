@@ -157,17 +157,11 @@ Color Palette & Texture: {colors}
 Abstract/Conceptual Notes: {abstract}
 Extra Notes: {notes}"""
 
-# Transliterate Banglish to English first (if any)
-def transliterate_text(text):
-    try:
-        return phonetic.transliterate(text)
-    except:
-        return text
+# Transliterate Banglish
+transliterated_input = transliterate_banglish(user_input)
 
-transliterated_text = transliterate_text(user_combined)
-
-# Then translate any remaining Bangla to English
-translated_combined = translator.translate(transliterated_text, src='auto', dest='en').text
+# Translate to English
+translated_input = translator.translate(transliterated_input, src='auto', dest='en').text
 
 # ---- Track User Inputs ----
 st.write("Tracking Info:")
