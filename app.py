@@ -1,10 +1,9 @@
 import streamlit as st
 import openai
 from googletrans import Translator
-from avro.datafile import DataFileReader
+from avro_phonetic import AvroPhonetic
 import base64
 import os
-from transliterate import AvroPhonetic
 
 # 🟢 MUST BE FIRST Streamlit command
 st.set_page_config(page_title="রিয়ালিস্টিক প্রম্পট জেনারেটর", page_icon="🎨")
