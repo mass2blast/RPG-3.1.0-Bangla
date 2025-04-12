@@ -1,7 +1,6 @@
 import streamlit as st
 import openai
 from googletrans import Translator
-from AvroPhonetic import AvroPhonetic
 import base64
 import os
 
@@ -9,7 +8,9 @@ import os
 st.set_page_config(page_title="রিয়ালিস্টিক প্রম্পট জেনারেটর", page_icon="🎨")
 
 # ---------- Branding Section ----------
-branding_url = "https://t.me/techytan"
+
+# Telegram or branding link
+branding_url = "https://t.me/techytan"  # Replace with your actual link
 logo_path = "logo.png"
 
 def get_base64_logo(logo_path):
@@ -24,7 +25,7 @@ if os.path.exists(logo_path):
                 <img src="data:image/png;base64,{logo_base64}" alt="Logo" style="height:50px;">
             </a>
             <a href="{branding_url}" target="_blank" style="text-decoration: none; font-size: 14px; color: #888;">
-                Powered by <strong>RZ STUDIOS</strong>
+                Powered by <strong>RZ STUDIO</strong>
             </a>
         </div>
         <hr style="margin-top: 5px;">
@@ -35,24 +36,8 @@ else:
 # Set OpenAI API key
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
-# Function: Banglish to Bangla transliteration
-def transliterate_banglish(text):
-    parser = AvroPhonetic()
-    return parser.parse(text)
-
-# Function: Bangla to English translation
-def translate_to_english(text):
-    translator = Translator()
-    result = translator.translate(text, src='bn', dest='en')
-    return result.text
-
-# Function: Detect language and translate if necessary
-def auto_translate(text):
-    if any(char in 'অআইঈউঊঋএঐওঔকখগঘচছজঝঞটঠডঢণতথদধনপফবভমযরলশষসহড়ঢ়য়ৠ' for char in text):
-        return translate_to_english(text)
-    else:
-        bangla_text = transliterate_banglish(text)
-        return translate_to_english(bangla_text)
+# Translator setup
+translator = Translator()
 
 # Initialize session state trackers if not present
 if 'api_calls' not in st.session_state:
@@ -163,8 +148,8 @@ Color Palette & Texture: {colors}
 Abstract/Conceptual Notes: {abstract}
 Extra Notes: {notes}"""
 
-# ---- Translate combined input to English (auto-detect Bangla/Banglish) ----
-translated_combined = auto_translate(user_combined)
+# ---- Translate to English ----
+translated_combined = translator.translate(user_combined, src='auto', dest='en').text
 
 # ---- Track User Inputs ----
 st.write("Tracking Info:")
@@ -193,7 +178,7 @@ if st.button("🎯 Generate Prompt"):
             st.session_state.api_calls += 1
 
             st.markdown("### 🖼️ Final Prompt")
-            st.write(result)
+            st.code(result, language="text")
             st.markdown(f"🔄 API Calls Made: {st.session_state.api_calls}")
             st.markdown(f"💬 Total Tokens Consumed: {st.session_state.total_tokens}")
 
