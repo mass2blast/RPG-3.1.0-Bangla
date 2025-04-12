@@ -1,7 +1,7 @@
 import streamlit as st
 import openai
 from googletrans import Translator
-from AvroPhonetic import Parser
+from AvroPhonetic import AvroPhonetic
 import base64
 import os
 
@@ -37,9 +37,8 @@ openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 # Function: Banglish to Bangla transliteration
 def transliterate_banglish(text):
-    parser = Parser()
-    bangla_text = parser.parse(text)
-    return bangla_text
+    parser = AvroPhonetic()
+    return parser.parse(text)
 
 # Function: Bangla to English translation
 def translate_to_english(text):
