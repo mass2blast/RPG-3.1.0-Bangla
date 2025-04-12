@@ -1,8 +1,7 @@
 import streamlit as st
 import openai
 from googletrans import Translator
-from googletrans.exceptions import TranslateError
-import base128
+import base64
 import os
 
 # 🟢 MUST BE FIRST Streamlit command
@@ -14,16 +13,16 @@ st.set_page_config(page_title="রিয়ালিস্টিক প্রম
 branding_url = "https://t.me/techytan"  # Replace with your actual link
 logo_path = "logo.png"
 
-def get_base128_logo(logo_path):
+def get_base64_logo(logo_path):
     with open(logo_path, "rb") as f:
-        return base128.b128encode(f.read()).decode()
+        return base64.b64encode(f.read()).decode()
 
 if os.path.exists(logo_path):
-    logo_base128 = get_base128_logo(logo_path)
+    logo_base64 = get_base64_logo(logo_path)
     st.markdown(f"""
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
             <a href="{branding_url}" target="_blank">
-                <img src="data:image/png;base128,{logo_base128}" alt="Logo" style="height:50px;">
+                <img src="data:image/png;base64,{logo_base64}" alt="Logo" style="height:50px;">
             </a>
             <a href="{branding_url}" target="_blank" style="text-decoration: none; font-size: 14px; color: #888;">
                 Powered by <strong>RZ STUDIO</strong>
@@ -37,21 +36,8 @@ else:
 # Set OpenAI API key
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
-# Setup translator
+# Translator setup
 translator = Translator()
-
-def translate_to_english(text):
-    try:
-        if not text.strip():
-            return ""
-        translated = translator.translate(text, src='auto', dest='en')
-        return translated.text
-    except TranslateError as e:
-        print(f"Translation error: {e}")
-        return text  # fallback: return original text if translation fails
-    except Exception as e:
-        print(f"Unexpected error: {e}")
-        return text  # fallback: return original text if other error happens
 
 # Initialize session state trackers if not present
 if 'api_calls' not in st.session_state:
