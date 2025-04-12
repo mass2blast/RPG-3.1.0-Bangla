@@ -1,7 +1,7 @@
 import streamlit as st
 import openai
 from googletrans import Translator
-from avro_phonetic import AvroPhonetic
+from AvroPhonetic import Parser
 import base64
 import os
 
@@ -9,9 +9,7 @@ import os
 st.set_page_config(page_title="রিয়ালিস্টিক প্রম্পট জেনারেটর", page_icon="🎨")
 
 # ---------- Branding Section ----------
-
-# Telegram or branding link
-branding_url = "https://t.me/techytan"  # Replace with your actual link
+branding_url = "https://t.me/techytan"
 logo_path = "logo.png"
 
 def get_base64_logo(logo_path):
@@ -37,15 +35,26 @@ else:
 # Set OpenAI API key
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
-# Initialize translators
-translator = Translator()
-
+# Function: Banglish to Bangla transliteration
 def transliterate_banglish(text):
-    try:
-        return AvroPhonetic().parse(text)
-    except:
-        return text
-        
+    parser = Parser()
+    bangla_text = parser.parse(text)
+    return bangla_text
+
+# Function: Bangla to English translation
+def translate_to_english(text):
+    translator = Translator()
+    result = translator.translate(text, src='bn', dest='en')
+    return result.text
+
+# Function: Detect language and translate if necessary
+def auto_translate(text):
+    if any(char in 'অআইঈউঊঋএঐওঔকখগঘচছজঝঞটঠডঢণতথদধনপফবভমযরলশষসহড়ঢ়য়ৠ' for char in text):
+        return translate_to_english(text)
+    else:
+        bangla_text = transliterate_banglish(text)
+        return translate_to_english(bangla_text)
+
 # Initialize session state trackers if not present
 if 'api_calls' not in st.session_state:
     st.session_state.api_calls = 0
@@ -136,7 +145,6 @@ a descriptive, flowing paragraph combining mood, style, characters, environment,
 No bullet points. No formatting headers. Just one rich cinematic paragraph.
 Use elevated, visual language and cinematic descriptions.
 The goal: craft something a visual artist could bring to life immediately.
-
 """
 
 # ---- Combine Inputs ----
@@ -156,11 +164,8 @@ Color Palette & Texture: {colors}
 Abstract/Conceptual Notes: {abstract}
 Extra Notes: {notes}"""
 
-# Transliterate Banglish
-transliterated_input = transliterate_banglish(user_input)
-
-# Translate to English
-translated_input = translator.translate(transliterated_input, src='auto', dest='en').text
+# ---- Translate combined input to English (auto-detect Bangla/Banglish) ----
+translated_combined = auto_translate(user_combined)
 
 # ---- Track User Inputs ----
 st.write("Tracking Info:")
