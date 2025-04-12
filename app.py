@@ -46,8 +46,8 @@ if 'total_tokens' not in st.session_state:
     st.session_state.total_tokens = 0
 
 # ---- Title and Description ----
-st.title("🧠 বাস্তবধর্মী প্রম্পট জেনারেটর")
-st.markdown("AI চিত্র তৈরির জন্য চিত্রনাট্য স্টাইলের প্রম্পট তৈরি করুন। ইংরেজি, বাংলা বা বাংলিশে ইনপুট দিন।")
+st.title("🧠 Realistic Prompt Generator")
+st.markdown("A powerful tool designed by techytan to generate AI Prompt. Give input in ENGLISH or BANGLA (ভুল বানান করা যাবে না) ")
 
 # ---- Dropdown Options ----
 style_options = [
