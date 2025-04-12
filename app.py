@@ -49,7 +49,7 @@ if 'total_tokens' not in st.session_state:
 st.title("🧠 Realistic Prompt Generator")
 st.markdown("A powerful tool designed by techytan to generate AI Prompt. Give input in ENGLISH or BANGLA (ভুল বানান করা যাবে না) ")
 
-# ---- Dropdown Options ----
+# ---- Presets and Dropdowns ---- (Bangla and English Text)
 style_options = [
     ("ফটোরিয়ালিজম (Photorealism)", "Photorealism"),
     ("সাইবারপঙ্ক (Cyberpunk)", "Cyberpunk"),
@@ -63,68 +63,69 @@ style_options = [
 
 fusion_options = [
     ("কিছুই না (None)", "None"),
-    ("ভিনটেজ সাইফাই এবং বারোক প্রভাব", "Vintage sci-fi with Baroque influences"),
-    ("সাইবারপঙ্ক এবং ওয়াটারকলার টেক্সচার", "Cyberpunk with watercolor textures"),
-    ("মিনিমালিস্ট রিয়েলিজম এবং গ্লিচ ইফেক্টস", "Minimalist realism with glitch effects"),
-    ("ফিল্ম নোয়ার এবং সুররিয়ালিস্ট ড্রিমস্কেপ", "Film noir meets surrealist dreamscape")
+    ("ভিনটেজ সাইফাই এবং বারোক প্রভাব (Vintage sci-fi with Baroque influences)", "Vintage sci-fi with Baroque influences"),
+    ("সাইবারপঙ্ক এবং ওয়াটারকলার টেক্সচার (Cyberpunk with watercolor textures)", "Cyberpunk with watercolor textures"),
+    ("মিনিমালিস্ট রিয়েলিজম এবং গ্লিচ ইফেক্টস (Minimalist realism with glitch effects)", "Minimalist realism with glitch effects"),
+    ("ফিল্ম নোয়ার এবং সুররিয়ালিস্ট ড্রিমস্কেপ (Film noir meets surrealist dreamscape)", "Film noir meets surrealist dreamscape")
 ]
 
 mood_options = [
-    ("সুখী ও রহস্যময়", "Serene and ethereal"),
-    ("অন্ধকার এবং দুঃস্বপ্ন", "Dark and dystopian"),
-    ("মনখারাপ এবং বিষণ্ণ", "Melancholic and moody"),
-    ("আত্মবিশ্বাসী এবং শক্তিশালী", "Chaotic and energetic"),
-    ("শান্তিপূর্ণ ও ধ্যানমগ্ন", "Peaceful and meditative")
+    ("সুখী ও রহস্যময় (Serene and ethereal)", "Serene and ethereal"),
+    ("অন্ধকার এবং দুঃস্বপ্ন (Dark and dystopian)", "Dark and dystopian"),
+    ("মনখারাপ এবং বিষণ্ণ (Melancholic and moody)", "Melancholic and moody"),
+    ("আত্মবিশ্বাসী এবং শক্তিশালী (Chaotic and energetic)", "Chaotic and energetic"),
+    ("শান্তিপূর্ণ ও ধ্যানমগ্ন (Peaceful and meditative)", "Peaceful and meditative")
 ]
 
 lighting_options = [
-    ("সোনালী আলো", "Golden hour sunlight"),
-    ("উচ্চ কন্ট্রাস্ট নিওন আলো", "High contrast neon glow"),
-    ("সোফট এবং ডিফিউসড আলো", "Soft diffused light"),
-    ("ব্যাকলিট সিলুয়েট", "Backlit silhouette"),
-    ("কঠিন স্টুডিও আলো", "Harsh studio lighting")
+    ("সোনালী আলো (Golden hour sunlight)", "Golden hour sunlight"),
+    ("উচ্চ কন্ট্রাস্ট নিওন আলো (High contrast neon glow)", "High contrast neon glow"),
+    ("সোফট এবং ডিফিউসড আলো (Soft diffused light)", "Soft diffused light"),
+    ("ব্যাকলিট সিলুয়েট (Backlit silhouette)", "Backlit silhouette"),
+    ("কঠিন স্টুডিও আলো (Harsh studio lighting)", "Harsh studio lighting")
 ]
 
 camera_options = [
-    ("৩৫ মিমি লেন্স", "Captured with a 35mm lens"),
-    ("৫০ মিমি লেন্স", "Captured with a 50mm lens"),
-    ("এয়ারিয়াল ড্রোন ভিউ", "Aerial drone view"),
-    ("ম্যাক্রো ক্লোজ-আপ", "Macro close-up"),
-    ("ফিশআই লেন্স ভিউ", "Fisheye lens view")
+    ("৩৫ মিমি লেন্সের সাথে ক্যাপচার (Captured with a 35mm lens)", "Captured with a 35mm lens"),
+    ("৫০ মিমি লেন্সের সাথে ক্যাপচার (Captured with a 50mm lens)", "Captured with a 50mm lens"),
+    ("এয়ারিয়াল ড্রোন ভিউ (Aerial drone view)", "Aerial drone view"),
+    ("ম্যাক্রো ক্লোজ-আপ (Macro close-up)", "Macro close-up"),
+    ("ফিশআই লেন্স ভিউ (Fisheye lens view)", "Fisheye lens view")
 ]
 
+# ---- Weather options ----
 weather_options = [
-    ("স্পষ্ট", "Clear"),
-    ("বৃষ্টি", "Rain"),
-    ("কুয়াশা", "Fog"),
-    ("ঝড়", "Storm"),
-    ("তুষারপাত", "Snow"),
-    ("অপরিষ্কার", "Overcast"),
-    ("অজানা", "Unknown")
+    ("স্পষ্ট (Clear)", "Clear"),
+    ("বৃষ্টি (Rain)", "Rain"),
+    ("কুয়াশা (Fog)", "Fog"),
+    ("ঝড় (Storm)", "Storm"),
+    ("তুষারপাত (Snow)", "Snow"),
+    ("অপরিষ্কার (Overcast)", "Overcast"),
+    ("অজানা (Unknown)", "Unknown")
 ]
 
-# ---- User Inputs ----
-subject = st.text_input("🧍 বিষয় / চরিত্র", "A mysterious wanderer")
-character_attributes = st.text_input("🔍 বৈশিষ্ট্য", "mid-30s, male, long dark coat, glowing blue eyes, cybernetic hand")
-environment = st.text_input("🌆 পরিবেশ", "Abandoned rooftop garden in a futuristic city")
-objects = st.text_input("📦 উপাদান", "Hovering drones, vines crawling up antennas, digital billboard flickering")
-weather = st.selectbox("🌦 আবহাওয়া", [x[0] for x in weather_options], index=2)
-time_of_day = st.selectbox("🕐 সময়", ["Dawn", "Morning", "Noon", "Golden Hour", "Dusk", "Night", "Midnight"], index=0)
-lighting = st.selectbox("💡 আলো", [x[0] for x in lighting_options])
-mood = st.selectbox("🎭 মুড", [x[0] for x in mood_options])
-style = st.selectbox("🎨 শৈলী", [x[0] for x in style_options])
-artistic_fusion = st.selectbox("🔀 সংমিশ্রণ", [x[0] for x in fusion_options])
-camera = st.selectbox("📷 ক্যামেরা", [x[0] for x in camera_options])
-action = st.text_input("🎬 ক্রিয়া", "The man gazes across the city, smoke trailing from his coat, lost in memory")
-colors = st.text_input("🌈 রঙের প্যালেট", "Moody blues, purple shadows, flickering pink neon, wet surfaces with reflections")
-abstract = st.text_input("💭 বিমূর্ত ধারণা", "A metaphor for isolation in a hyper-connected world")
-notes = st.text_area("📝 অতিরিক্ত নোট", "Blend cyberpunk neon with noir grain and dramatic backlighting")
+# ---- Inputs ---- (Mixed Bangla, English, and Banglish)
+subject = st.text_input("🧍 বিষয় / চরিত্র (Subject / Character)", "A mysterious wanderer")
+character_attributes = st.text_input("🔍 চরিত্রের বৈশিষ্ট্য (Character Attributes)", "mid-30s, male, long dark coat, glowing blue eyes, cybernetic hand")
+environment = st.text_input("🌆 পরিবেশ / সেটিং (Environment / Setting)", "Abandoned rooftop garden in a futuristic city")
+objects = st.text_input("📦 অবজেক্টস বা মূল উপাদান (Objects or Key Elements)", "Hovering drones, vines crawling up antennas, digital billboard flickering")
+weather = st.selectbox("🌦 আবহাওয়া (Weather)", [x[0] for x in weather_options], index=2)
+time_of_day = st.selectbox("🕐 সময়ের পার্থক্য (Time of Day)", ["Dawn", "Morning", "Noon", "Golden Hour", "Dusk", "Night", "Midnight"], index=0)
+lighting = st.selectbox("💡 আলোর ধরন (Lighting Style)", [x[0] for x in lighting_options])
+mood = st.selectbox("🎭 মুড / আবেগ (Mood / Emotional Tone)", [x[0] for x in mood_options])
+style = st.selectbox("🎨 শৈলী (Artistic Style)", [x[0] for x in style_options])
+artistic_fusion = st.selectbox("🔀 শৈলী সংমিশ্রণ (Style Fusion)", [x[0] for x in fusion_options])
+camera = st.selectbox("📷 ক্যামেরা / লেন্স বিশদ (Camera / Lens Details)", [x[0] for x in camera_options])
+action = st.text_input("🎬 ক্রিয়া / আবেগ (Action / Emotion)", "The man gazes across the city, smoke trailing from his coat, lost in memory")
+colors = st.text_input("🌈 রঙের প্যালেট / টেক্সচার (Color Palette / Textures)", "Moody blues, purple shadows, flickering pink neon, wet surfaces with reflections")
+abstract = st.text_input("💭 বিমূর্ত ধারণা (Abstract Concept)", "A metaphor for isolation in a hyper-connected world")
+notes = st.text_area("📝 অতিরিক্ত নোট (Extra Notes)", "Blend cyberpunk neon with noir grain and dramatic backlighting")
 
 # ---- System Prompt ----
 system_prompt = """You are a professional prompt engineer specializing in generating highly detailed, vivid, and imaginative prompts for AI image generation.
 
 Your format must always follow this structure:
-a descriptive, flowing paragraph combining mood, style, characters, environment, action, colors, and abstract themes.
+a descriptive, flowing paragraph combining mood, style, characters, environment, camera lens type, action, colors, and abstract themes.
 
 No bullet points. No formatting headers. Just one rich cinematic paragraph.
 Use elevated, visual language and cinematic descriptions.
