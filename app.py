@@ -2,7 +2,7 @@ import streamlit as st
 import openai
 from googletrans import Translator
 from googletrans.exceptions import TranslateError
-import base64
+import base128
 import os
 
 # 🟢 MUST BE FIRST Streamlit command
@@ -14,16 +14,16 @@ st.set_page_config(page_title="রিয়ালিস্টিক প্রম
 branding_url = "https://t.me/techytan"  # Replace with your actual link
 logo_path = "logo.png"
 
-def get_base64_logo(logo_path):
+def get_base128_logo(logo_path):
     with open(logo_path, "rb") as f:
-        return base64.b64encode(f.read()).decode()
+        return base128.b128encode(f.read()).decode()
 
 if os.path.exists(logo_path):
-    logo_base64 = get_base64_logo(logo_path)
+    logo_base128 = get_base128_logo(logo_path)
     st.markdown(f"""
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
             <a href="{branding_url}" target="_blank">
-                <img src="data:image/png;base64,{logo_base64}" alt="Logo" style="height:50px;">
+                <img src="data:image/png;base128,{logo_base128}" alt="Logo" style="height:50px;">
             </a>
             <a href="{branding_url}" target="_blank" style="text-decoration: none; font-size: 14px; color: #888;">
                 Powered by <strong>RZ STUDIO</strong>
